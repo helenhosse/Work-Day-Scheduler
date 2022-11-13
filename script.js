@@ -1,7 +1,6 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -21,3 +20,33 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 });
+
+
+
+var workHours = ['9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm'];
+var template = "";
+workHours.forEach(function(time,i){
+  let id = i+ 9;
+  template += ';
+  <div class="row time-block" id="${id}">
+    <div class="col-1 hour pt-2">${time}</div>;
+    <textarea class="col-10 plan"></textarea>;
+    <button class="col-1 saveBtn">i class="fas fa-save"</button>;
+});
+$(".container").html(template);
+
+function timeBlockColor(){
+  let hour = moment().hours();
+  let timeBlock = $(".time-block");
+  for(let i= 0; i < timeBlock.length; i++) {
+    var currHour = parseInt($(timeBlock[i]).attr("id"));
+    console.log(currHour);
+    if (currHour > hour) {
+      $(timeBlock[i]).addClass("future");
+    } else if (currHour === hour) {
+      $(timeBlock[i]).addClass("present");
+    }else {
+      $(timeBlock[i]).addClass("past");
+    }
+  }
+}
